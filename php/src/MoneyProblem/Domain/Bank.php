@@ -8,54 +8,36 @@ class Bank
 {
     private $exchangeRates = [];
 
-    /**
-     * @param array $exchangeRates
-     */
     public function __construct(array $exchangeRates = [])
     {
         $this->exchangeRates = $exchangeRates;
     }
 
-    /**
-     * @param Currency $currency1
-     * @param Currency $currency2
-     * @param float $rate
-     * @return Bank
-     */
-    public static function create(Currency $currency1, Currency $currency2, float $rate)
+    public static function create(Currency $fromCurrency, Currency $toCurrency, float $rate) : Bank
     {
         $bank = new Bank([]);
-        $bank->addEchangeRate($currency1, $currency2, $rate);
+        $bank->addExchangeRate($fromCurrency, $toCurrency, $rate);
 
         return $bank;
     }
 
-    /**
-     * @param Currency $currency1
-     * @param Currency $currency2
-     * @param float $rate
-     * @return void
-     */
-    public function addEchangeRate(Currency $currency1, Currency $currency2, float $rate): void
+    public function addExchangeRate(Currency $fromCurrency, Currency $toCurrency, float $rate): void
     {
-        $this->exchangeRates[($currency1 . '->' . $currency2)] = $rate;
+        $this->exchangeRates[($fromCurrency . '->' . $toCurrency)] = $rate;
     }
 
-    /**
-     * @param float $amount
-     * @param Currency $currency1
-     * @param Currency $currency2
-     * @return float
-     * @throws MissingExchangeRateException
-     */
-    public function convert(float $amount, Currency $currency1, Currency $currency2): float
+    public function convert(float $amount, Currency $fromCurrency, Currency $toCurrency): float
     {
-        if (!($currency1 == $currency2 || array_key_exists($currency1 . '->' . $currency2, $this->exchangeRates))) {
-            throw new MissingExchangeRateException($currency1, $currency2);
+        if ($fromCurrency == $toCurrency) {
+            return $amount;
         }
-        return $currency1 == $currency2
-            ? $amount
-            : $amount * $this->exchangeRates[($currency1 . '->' . $currency2)];
-    }
 
+        $exchangeRateKey = $fromCurrency . '->' . $toCurrency;
+
+        if (!array_key_exists($exchangeRateKey, $this->exchangeRates)) {
+            throw new MissingExchangeRateException($fromCurrency, $toCurrency);
+        }
+
+        return $amount * $this->exchangeRates[$exchangeRateKey];
+    }
 }

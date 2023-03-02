@@ -5,13 +5,9 @@ namespace MoneyProblem\Domain;
 class MissingExchangeRateException extends \Exception
 {
 
-    /**
-     * @param Currency $currency1
-     * @param Currency $currency2
-     */
-    public function __construct(Currency $currency1, Currency $currency2)
+    public function __construct(Currency $fromCurrency, Currency $toCurrency)
     {
-        parent::__construct(sprintf('%s->%s', $currency1, $currency2));
-
+        $message = sprintf('%s->%s', $fromCurrency, $toCurrency);
+        parent::__construct($message);
     }
 }

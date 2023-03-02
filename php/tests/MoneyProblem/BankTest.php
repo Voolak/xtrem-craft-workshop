@@ -34,7 +34,7 @@ class BankTest extends TestCase
 
         $this->assertEquals(12, $bank->convert(10, Currency::EUR(), Currency::USD()));
 
-        $bank->addEchangeRate(Currency::EUR(), Currency::USD(), 1.3);
+        $bank->addExchangeRate(Currency::EUR(), Currency::USD(), 1.3);
 
         $this->assertEquals(13, $bank->convert(10, Currency::EUR(), Currency::USD()));
     }
