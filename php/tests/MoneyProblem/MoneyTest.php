@@ -23,6 +23,21 @@ class MoneyTest extends TestCase
         $this->assertNotNull($result2);
     }
 
+    public function testAddInDiffrentCurrency()
+    {
+        // Arrange
+        $bank = Bank::create(Currency::KRW(), Currency::USD(), 0.5);
+
+        // Act
+        $result1 = MoneyCalculator::add(5, Currency::USD(), 10, Currency::KRW(), $bank);
+        $result2 = MoneyCalculator::add(5, Currency::USD(), 10, Currency::KRW(), $bank);
+
+        // Assert
+        $this->assertEquals(10,$result1);
+        $this->assertIsFloat($result1);
+        $this->assertNotNull($result2);
+    }
+
     public function testMultiplyInEUR()
     {
         // Act
