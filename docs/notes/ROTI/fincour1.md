@@ -8,4 +8,4 @@ L'efficacité du TDD
 
 
 LUNDI
-L'addition du portfolio du test en rouge
+Plus de Tests Unitaires
