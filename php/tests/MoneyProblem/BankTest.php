@@ -9,34 +9,57 @@ use PHPUnit\Framework\TestCase;
 
 class BankTest extends TestCase
 {
-
-    public function test_convert_eur_to_usd_returns_float()
+    public function testConvertEurToUsd()
     {
-        $this->assertEquals(12, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::USD()));
+        // Arrange
+        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+
+        // Act
+        $result = $bank->convert(10, Currency::EUR(), Currency::USD());
+
+        // Assert
+        $this->assertEquals(12, $result);
     }
 
-    public function test_convert_eur_to_eur_returns_same_value()
+    public function testConvertEurToEurRemainsUnchanged()
     {
-        $this->assertEquals(10, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::EUR()));
+        // Arrange
+        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+
+        // Act
+        $result = $bank->convert(10, Currency::EUR(), Currency::EUR());
+
+        // Assert
+        $this->assertEquals(10, $result);
     }
 
-    public function test_convert_throws_exception_on_missing_exchange_rate()
+    public function testUnknownConversion()
     {
+        // Arrange
+        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+
+        // Assert
         $this->expectException(MissingExchangeRateException::class);
         $this->expectExceptionMessage('EUR->KRW');
 
-        Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::KRW());
+        // Act
+        $bank->convert(10, Currency::EUR(), Currency::KRW());
     }
 
-    public function test_convert_with_different_exchange_rates_returns_different_floats()
+    public function testChangeExchangeRates()
     {
+        // Arrange
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
 
-        $this->assertEquals(12, $bank->convert(10, Currency::EUR(), Currency::USD()));
+        // Act
+        $result1 = $bank->convert(10, Currency::EUR(), Currency::USD());
 
         $bank->addExchangeRate(Currency::EUR(), Currency::USD(), 1.3);
 
-        $this->assertEquals(13, $bank->convert(10, Currency::EUR(), Currency::USD()));
-    }
+        $result2 = $bank->convert(10, Currency::EUR(), Currency::USD());
 
+        // Assert
+        $this->assertEquals(12, $result1);
+        $this->assertEquals(13, $result2);
+    }
 }

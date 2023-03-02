@@ -9,21 +9,35 @@ use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {
-    public function test_add_in_usd_returns_value()
+    public function testAddInUSD()
     {
+        // Arrange
         $bank = Bank::create(Currency::USD(), Currency::USD(), 1);
 
-        $this->assertIsFloat(MoneyCalculator::add(5, Currency::USD(), 10, Currency::USD(), $bank));
-        $this->assertNotNull(MoneyCalculator::add(5, Currency::USD(), 10, Currency::USD(), $bank));
+        // Act
+        $result1 = MoneyCalculator::add(5, Currency::USD(), 10, Currency::USD(), $bank);
+        $result2 = MoneyCalculator::add(5, Currency::USD(), 10, Currency::USD(), $bank);
+
+        // Assert
+        $this->assertIsFloat($result1);
+        $this->assertNotNull($result2);
     }
 
-    public function test_multiply_in_euros_returns_positive_number()
+    public function testMultiplyInEUR()
     {
-        $this->assertLessThan(MoneyCalculator::times(10, 2), 0);
+        // Act
+        $result = MoneyCalculator::times(10, 2);
+
+        // Assert
+        $this->assertLessThan($result, 0);
     }
 
-    public function test_divide_in_korean_won_returns_float()
+    public function testDivideInKWR()
     {
-        $this->assertEquals(MoneyCalculator::divide(8, 4), 2);
+        // Act
+        $result = MoneyCalculator::divide(8, 4);
+
+        // Assert
+        $this->assertEquals(2, $result);
     }
 }
