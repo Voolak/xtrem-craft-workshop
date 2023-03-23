@@ -5,6 +5,7 @@ namespace Tests\MoneyProblem\Domain;
 use MoneyProblem\Domain\Bank;
 use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\MoneyCalculator;
+use MoneyProblem\Domain\Money;
 use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
@@ -64,4 +65,15 @@ class MoneyTest extends TestCase
         // Assert
         $this->assertEquals(2, $result);
     }
+
+    public function test(){
+        $money = new Money(10,Currency::EUR);
+
+        $multiplied = new Money(10,Currency::EUR);
+        $multiplied->times(2);
+
+        $this->assertEquals(new Money(20,Currency::EUR),$multiplied);
+        $this->assertEquals(new Money(10,Currency::EUR),$money);
+    }
+
 }
