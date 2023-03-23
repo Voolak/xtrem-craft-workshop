@@ -40,6 +40,6 @@
         }
     },
     "scripts":{
-        "test-cmd": ["php ./php/vendor/bin/phpunit --testdox"]
+        "test-cmd": ["php ./vendor/bin/phpunit --testdox"]
     }
 }
