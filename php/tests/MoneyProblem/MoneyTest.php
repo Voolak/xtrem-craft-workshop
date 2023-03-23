@@ -66,14 +66,18 @@ class MoneyTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function test(){
+    public function testMultiplicationMoney(){
         $money = new Money(10,Currency::EUR);
+        $money->times(2);
 
-        $multiplied = new Money(10,Currency::EUR);
-        $multiplied->times(2);
+        $this->assertEquals(new Money(20,Currency::EUR),$money);
+    }
 
-        $this->assertEquals(new Money(20,Currency::EUR),$multiplied);
-        $this->assertEquals(new Money(10,Currency::EUR),$money);
+    public function testAddidtionMoney(){
+        $money = new Money(10,Currency::EUR);
+        $money->add(2);
+
+        $this->assertEquals(new Money(12,Currency::EUR),$money);
     }
 
 }

@@ -14,10 +14,9 @@ class Money
     }
 
 
-    private function add(float $fromAmount, Currency $fromCurrency, float $toAmount, Currency $toCurrency, Bank $bank): float
+    public function add(float $value)
     {
-        $toAmount = $bank->convert($toAmount,$toCurrency,$fromCurrency);
-        return $fromAmount + $toAmount;
+        $this->amount  += $value;
     }
 
     public function times(float $value)
