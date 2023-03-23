@@ -11,12 +11,14 @@ class Portfolio
         $this->empty = true;
     }
 
-    public function add(float $amount, Currency $Currency){
+    public function add(float $amount, Currency $Currency)
+    {
         $this->empty = false;
     }
 
-    public function evaluate(Currency $Currency, Bank $bank){
-        if ($this->empty){
+    public function evaluate(Currency $Currency, Bank $bank)
+    {
+        if ($this->empty) {
             return 0;
         }
         return 17;
