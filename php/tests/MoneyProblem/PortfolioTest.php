@@ -5,6 +5,7 @@ namespace Tests\MoneyProblem\Domain;
 use MoneyProblem\Domain\Bank;
 use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\Portfolio;
+use MoneyProblem\Domain\Money;
 use PHPUnit\Framework\TestCase;
 
 class PortfolioTest extends TestCase
@@ -19,6 +20,10 @@ class PortfolioTest extends TestCase
         $bank->addExchangeRate(Currency::EUR(), Currency::KRW(), 1344);
         $portfolio = new Portfolio;
         $portfolio2 = new Portfolio;
+        $money = new Money(17,Currency::USD());
+        $money2 = new Money(2200,Currency::KRW());
+        $money3 = new Money(14.1,Currency::EUR());
+        $money4 = new Money(18940,Currency::KRW());
 
         // Act
         $portfolio->add(5, Currency::USD());
@@ -33,10 +38,10 @@ class PortfolioTest extends TestCase
         $result4 = $portfolio->evaluate(Currency::KRW(), $bank);
 
         // Assert
-        $this->assertEquals(17, $result);
-        $this->assertEquals(2200, $result2);
-        $this->assertEquals(14.1, $result3);
-        $this->assertEquals(18940, $result4);
+        $this->assertEquals($money, $result);
+        $this->assertEquals($money2, $result2);
+        $this->assertEquals($money3, $result3);
+        $this->assertEquals($money4, $result4);
     }
 
     public function testEmptyPortfolio()
@@ -45,12 +50,12 @@ class PortfolioTest extends TestCase
         // Arrange
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
         $portfolio = new Portfolio;
-
+        $money = new Money(0, Currency::USD());
         // Act
 
         $result = $portfolio->evaluate(Currency::USD(), $bank);
 
         // Assert
-        $this->assertEquals(0, $result);
+        $this->assertEquals($money, $result);
     }
 }

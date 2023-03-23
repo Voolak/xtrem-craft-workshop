@@ -9,7 +9,7 @@ class Money
 
     public function __construct(float $amount, Currency $currency)
     {
-        if ($amount <= 0) {
+        if ($amount < 0) {
             throw new \InvalidArgumentException("No negative amount allowed");
         }
         $this->amount = $amount;

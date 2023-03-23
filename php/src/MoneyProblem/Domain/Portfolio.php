@@ -13,7 +13,7 @@ class Portfolio
     }
 
     public function add(float $amount, Currency $currency){
-        $this->money[] = [$amount,$currency];
+        $this->money[] = new money($amount,$currency);
         $this->empty = false;
     }
 
@@ -21,18 +21,16 @@ class Portfolio
         if ($this->empty){
             return 0;
         }
-        $total = 0;
 
-        foreach ($this->money as $value){
-
-            if ($value[1] == $currency){
-                $total += $value[0];
+        $moneyTotal = new Money(0, $currency);
+        foreach ($this->money as $moneyValue){
+            if ($moneyValue->getCurrency() == $currency){
+                $moneyTotal = $moneyTotal->add($moneyValue);
             } else {
-                $money = new Money($value[0],$value[1]);
-                $money2 = $bank->convert($money,$currency);
-                $total += $money2->getAmount();
+                $money2 = $bank->convert($moneyValue,$currency);
+                $moneyTotal = $moneyTotal->add($money2);
             }
         }
-        return $total;
+        return $moneyTotal;
     }
 }
