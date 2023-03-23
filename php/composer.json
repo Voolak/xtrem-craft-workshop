@@ -36,6 +36,8 @@
         "psr-4": {
             "Tests\\MoneyProblem\\": "tests/MoneyProblem/"
         }
+    },
+    "scripts":{
+        "test-cmd": ["php ./vendor/bin/phpunit --testdox"]
     }
-
 }
