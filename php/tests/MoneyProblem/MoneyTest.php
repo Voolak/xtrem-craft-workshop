@@ -7,6 +7,7 @@ use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\MoneyCalculator;
 use MoneyProblem\Domain\Money;
 use PHPUnit\Framework\TestCase;
+use Pitchart\Phlunit\Check;
 
 class MoneyTest extends TestCase
 {
@@ -66,25 +67,33 @@ class MoneyTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testMultiplicationMoney(){
-        $money = new Money(10,Currency::EUR);
-        $money->times(2);
-
-        $this->assertEquals(new Money(20,Currency::EUR),$money);
-    }
 
     public function testAddidtionMoney(){
-        $money = new Money(10,Currency::EUR);
-        $money->add(2);
+        
+        $money = new Money(10,Currency::EUR());
+        $money2 = $money->add(new Money(2, Currency::EUR()));
 
-        $this->assertEquals(new Money(12,Currency::EUR),$money);
+        $this->assertEquals(new Money(12,Currency::EUR()),$money2);
+    }
+
+    public function testMultiplicationMoney(){
+        $money = new Money(10,Currency::EUR());
+        $money2 = $money->times(2);
+
+        $this->assertEquals(new Money(20,Currency::EUR()),$money2);
     }
 
     public function testDivisionMoney(){
-        $money = new Money(10,Currency::EUR);
-        $money->divide(5);
 
-        $this->assertEquals(new Money(2,Currency::EUR),$money);
+        $money = new Money(10,Currency::EUR());
+        $money2 = $money->divide(5);
+
+        $this->assertEquals(new Money(2,Currency::EUR()),$money2);
     }
 
+    public function testNegativeMoney(){
+        $action = fn() => new Money(-10,Currency::EUR());
+
+        Check::thatCall($action)->throws(\InvalidArgumentException::class);
+    }
 }
