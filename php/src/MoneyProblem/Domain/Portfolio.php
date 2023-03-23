@@ -9,7 +9,6 @@ class Portfolio
 
     public function __construct()
     {
-        $this->empty = true;
         $this->money = [];
     }
 

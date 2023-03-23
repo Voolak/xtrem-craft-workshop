@@ -10,16 +10,11 @@ class MoneyCalculator
         return $fromAmount + $toAmount;
     }
 
-    public static function times(float $amount, int $value): float
-    {
-        return $amount * $value;
-    }
-
-    public static function divide(float $amount, int $value): float
+    public static function times(float $amount, float $value): float
     {
         if ($value === 0){
             throw new \InvalidArgumentException("Division by zero");
         }
-        return $amount / $value;
+        return $amount * $value;
     }
-}
+};

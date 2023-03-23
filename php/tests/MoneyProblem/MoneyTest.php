@@ -50,7 +50,7 @@ class MoneyTest extends TestCase
     public function testDivideInKWR()
     {
         // Act
-        $result = MoneyCalculator::divide(8, 4);
+        $result = MoneyCalculator::times(8, 0.25);
 
         // Assert
         $this->assertEquals(2, $result);
