@@ -13,7 +13,7 @@ class Bank
         $this->exchangeRates = $exchangeRates;
     }
 
-    public static function create(Currency $fromCurrency, Currency $toCurrency, float $rate) : Bank
+    public static function create(Currency $fromCurrency, Currency $toCurrency, float $rate): Bank
     {
         $bank = new Bank([]);
         $bank->addExchangeRate($fromCurrency, $toCurrency, $rate);
