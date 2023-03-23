@@ -12,7 +12,7 @@ class MoneyCalculator
 
     public static function times(float $amount, float $value): float
     {
-        if ($value <= 0){
+        if ($value < 0){
             throw new \InvalidArgumentException("Negative Multiplication");
         }
         return $amount * $value;

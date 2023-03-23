@@ -39,7 +39,7 @@ class Money
 
     public function divide(float $value)
     {
-        if ($value <= 0){
+        if ($value < 0){
             throw new \InvalidArgumentException("Division by zero or less");
         }
         return new Money($this->amount / $value, $this->currency);

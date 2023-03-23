@@ -41,7 +41,7 @@ class Bank
         return $amount * $this->exchangeRates[$exchangeRateKey];
     }
 
-    public function canConvert(Currency $currency, Currency $to){
+    protected function canConvert(Currency $currency, Currency $to){
         //On cherche si il y'a un exchange rate entre $currency -> $to
         return $currency == $to || array_key_exists($this->getKey($currency, $to), $this->exchangeRates);
     }
@@ -53,13 +53,13 @@ class Bank
         return $this->convertSafely($money,$currency);
     }
 
-    public function convertSafely(Money $money, Currency $currency){
+    protected function convertSafely(Money $money, Currency $currency){
         return $money->getCurrency() == $currency
             ? $money
             : new Money($money->getAmount() * $this->exchangeRates[$this->getKey($money->getCurrency(), $currency)],$currency);
     }
 
-    public function getKey(Currency $currency, Currency $to){
+    protected function getKey(Currency $currency, Currency $to){
         return $currency . '->' . $to;
     }
 }
