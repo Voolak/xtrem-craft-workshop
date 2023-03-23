@@ -8,6 +8,10 @@ on:
     branches:
       - "*"
 
+defaults:
+  run:
+    working-directory: ./php
+
 permissions:
   contents: read
 
@@ -20,7 +24,6 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
-        working-directory: ./php
 
       - name: Cache Composer packages
         id: composer-cache
@@ -33,10 +36,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
-        working-directory: ./php
+
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run test suite
         run: composer run-script test-cmd
-        working-directory: ./php
