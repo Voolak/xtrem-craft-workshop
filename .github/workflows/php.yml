@@ -14,15 +14,15 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.working-directory }}
+    env:
+      working-directory: ./php/
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
+        working-directory: ${{env.working-diretory}}
 
       - name: Cache Composer packages
         id: composer-cache
@@ -35,9 +35,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
-
+        working-directory: ${{env.working-diretory}}
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run test suite
         run: composer run-script test-cmd
+        working-directory: ${{env.working-diretory}}
