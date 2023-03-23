@@ -26,7 +26,7 @@ class Bank
         $this->exchangeRates[($fromCurrency . '->' . $toCurrency)] = $rate;
     }
 
-    public function convert(float $amount, Currency $fromCurrency, Currency $toCurrency): float
+    public function convertOld(float $amount, Currency $fromCurrency, Currency $toCurrency): float
     {
         if ($fromCurrency == $toCurrency) {
             return $amount;
@@ -39,5 +39,27 @@ class Bank
         }
 
         return $amount * $this->exchangeRates[$exchangeRateKey];
+    }
+
+    public function canConvert(Currency $currency, Currency $to){
+        //On cherche si il y'a un exchange rate entre $currency -> $to
+        return $currency == $to || array_key_exists($this->getKey($currency, $to), $this->exchangeRates);
+    }
+
+    public function convert(Money $money, Currency $currency){
+        if (!($this->canConvert($money->getCurrency(),$currency))){
+            throw new \MoneyProblem\Domain\MissingExchangeRateException($money->getCurrency(),$currency);
+        }
+        return $this->convertSafely($money,$currency);
+    }
+
+    public function convertSafely(Money $money, Currency $currency){
+        return $money->getCurrency() == $currency
+            ? $money
+            : new Money($money->getAmount() * $this->exchangeRates[$this->getKey($money->getCurrency(), $currency)],$currency);
+    }
+
+    public function getKey(Currency $currency, Currency $to){
+        return $currency . '->' . $to;
     }
 }

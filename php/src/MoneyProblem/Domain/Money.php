@@ -20,6 +20,10 @@ class Money
         return $this->amount;
     }
 
+    public function getCurrency(){
+        return $this->currency;
+    }
+
     public function add(Money $money)
     {
         return new Money($this->amount + $money->amount, $this->currency);

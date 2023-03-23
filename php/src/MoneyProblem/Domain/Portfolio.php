@@ -28,7 +28,9 @@ class Portfolio
             if ($value[1] == $currency){
                 $total += $value[0];
             } else {
-                $total += $bank->convert($value[0],$value[1],$currency);
+                $money = new Money($value[0],$value[1]);
+                $money2 = $bank->convert($money,$currency);
+                $total += $money2->getAmount();
             }
         }
         return $total;

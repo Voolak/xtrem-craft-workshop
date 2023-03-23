@@ -6,7 +6,7 @@ class MoneyCalculator
 {
     public static function add(float $fromAmount, Currency $fromCurrency, float $toAmount, Currency $toCurrency, Bank $bank): float
     {
-        $toAmount = $bank->convert($toAmount,$toCurrency,$fromCurrency);
+        $toAmount = $bank->convertOld($toAmount,$toCurrency,$fromCurrency);
         return $fromAmount + $toAmount;
     }
 
