@@ -9,7 +9,7 @@ class Money
 
     public function __construct(float $amount, Currency $currency)
     {
-        if ($amount < 0) {
+        if ($amount <= 0) {
             throw new \InvalidArgumentException("No negative amount allowed");
         }
         $this->amount = $amount;
@@ -27,7 +27,7 @@ class Money
 
     public function times(float $value)
     {
-        if ($value < 0){
+        if ($value <= 0){
             throw new \InvalidArgumentException("Multiplication by a negative number");
         }
         return new Money($this->amount * $value, $this->currency);
