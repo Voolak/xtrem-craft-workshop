@@ -1,4 +1,6 @@
 {
+    "name": "vendor-name/project",
+    "description": "description",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -38,6 +40,6 @@
         }
     },
     "scripts":{
-        "test-cmd": ["php ./php/vendor/bin/phpunit --testdox"]
+        "test-cmd": ["php ./vendor/bin/phpunit --testdox"]
     }
 }
