@@ -24,11 +24,11 @@ class Money
         $this->amount  *= $value;
     }
 
-    private function divide(float $amount, int $value): float
+    public function divide(float $value)
     {
-        if ($value === 0){
-            throw new \InvalidArgumentException("Division by zero");
+        if ($value <= 0){
+            throw new \InvalidArgumentException("Division by zero or less");
         }
-        return $amount / $value;
+        $this->amount /= $value;
     }
 }

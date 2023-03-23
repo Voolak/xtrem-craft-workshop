@@ -80,4 +80,11 @@ class MoneyTest extends TestCase
         $this->assertEquals(new Money(12,Currency::EUR),$money);
     }
 
+    public function testDivisionMoney(){
+        $money = new Money(10,Currency::EUR);
+        $money->divide(5);
+
+        $this->assertEquals(new Money(2,Currency::EUR),$money);
+    }
+
 }
