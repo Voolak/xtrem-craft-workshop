@@ -55,4 +55,13 @@ class MoneyTest extends TestCase
         // Assert
         $this->assertEquals(2, $result);
     }
+
+    public function testNegativeMultiplication()
+    {
+        // Act
+        $result = MoneyCalculator::times(8, 0.25);
+
+        // Assert
+        $this->assertEquals(2, $result);
+    }
 }
