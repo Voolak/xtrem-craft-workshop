@@ -63,3 +63,31 @@ class Bank
         return $currency . '->' . $to;
     }
 }
+
+class BankBuilder {
+    private $pivotCurrency;
+    private $exchangeRates = array();
+
+    public static function aBank(): BankBuilder {
+        return new BankBuilder();
+    }
+
+    public function withPivotCurrency($currency): BankBuilder {
+        $this->pivotCurrency = $currency;
+        return $this;
+    }
+
+    public function withExchangeRate($to, $rate): BankBuilder {
+        $this->exchangeRates[$to] = $rate;
+        return $this;
+    }
+
+    public function build(): Bank {
+        $bank = new Bank();
+        foreach ($this->exchangeRates as $currency => $rate) {
+            $bank->addExchangeRate($this->pivotCurrency, $rate, $rate);
+            $bank->addExchangeRate($rate, $this->pivotCurrency, 1/$rate);
+        }
+        return $bank;
+    }
+}

@@ -3,6 +3,7 @@
 namespace Tests\MoneyProblem\Domain;
 
 use MoneyProblem\Domain\Bank;
+use MoneyProblem\Domain\BankBuilder;
 use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\MissingExchangeRateException;
 use MoneyProblem\Domain\Money;
@@ -14,6 +15,8 @@ class BankTest extends TestCase
     {
         // Arrange
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = BankBuilder::aBank()->withPivotCurrency(Currency::EUR());
+        $bank = BankBuilder::aBank()->withExchangeRate(Currency::USD(), 1.2);
         $money = new Money(10,Currency::EUR());
         $moneyUsd = new Money(12,Currency::USD());
 

@@ -6,11 +6,13 @@ Story 1: Define Pivot Currency
 
 #### Règle Métier
 
-Il doit être possible de définir une devise pivot pour pouvoir exprimer les taux de change basés sur cette devise.
+Il faut définir une devise pivot pour pouvoir exprimer les taux de change basés sur cette devise.
+La devise pivot est obligatoire et immuable.
+Un taux de change, c'est un taux et une devise.
 
 ```gherkin
 Given une devise pivot est définie comme étant USD,
-When on exprime le taux de change entre EUR et JPY,
+When on exprime le taux de change entre EUR et KRW,
 Then on l'exprime en utilisant USD comme devise pivot.
 ```
 
@@ -24,11 +26,13 @@ Story 2: Add an exchange rate
 
 Il doit être possible d'ajouter ou de mettre à jour un taux de change en spécifiant le taux multiplicateur et la devise.
 Si le taux de change existe déjà, il doit être mis à jour avec les nouvelles valeurs.
+Il ne peut pas y avoir deux taux de change avec la meme devise.
+Pas de ER avec la devise pivot. 
 
 ```gherkin
 Given un taux de change EUR/USD existe déjà à 1.2,
-When j'ajoute un taux de change JPY/USD à 0.009,
-Then le taux de change JPY/USD est ajouté et peut être utilisé pour exprimer le taux de change entre EUR et JPY.
+When j'ajoute un taux de change KRW/USD à 1100,
+Then le taux de change KRW/USD est ajouté et peut être utilisé pour exprimer le taux de change entre EUR et KRW.
 ```
 
 Story 3: Convert a Money
@@ -39,12 +43,32 @@ Story 3: Convert a Money
 
 #### Règle Métier
 
-Il doit être possible de convertir une somme d'argent d'une devise à une autre en utilisant les taux de change appropriés.
-La conversion doit tenir compte de la devise pivot, s'il en existe une.
+Pas de devise inconnu de la banque sauf devise vers devise.
+La conversion doit tenir compte de la devise pivot.
 La précision de la conversion doit être d'au moins deux décimales.
+Round triping sur une devise -> renvoie la meme somme 
+Round triping sur deux devises -> renvoie à 0.01.
 
 ```gherkin
-Given un taux de change EUR/USD à 1.2 et un taux de change JPY/USD à 0.009,
-When je convertis 100 EUR en JPY,
-Then le résultat doit être égal à 13 333 JPY (arrondi à la deuxième décimale).
+Given a bank with EUR as Pivot Currency
+ And an Exchnage Rage of 1.235944 to USD
+ And an Exchnage Rate of 0.12548966 to KRW
+When I convert 10.254 KRW to USD 
+Then I receive ... USD
+```
+
+```gherkin
+Given a bank with EUR as Pivot Currency
+ And an Exchnage Rage of 1.235944 to USD
+ And an Exchnage Rate of 0.12548966 to KRW
+When I convert 10.254 KRW to USD 
+ And I convert the result back to KRW
+Then I receive 10.254 +- 1%
+```
+
+```gherkin
+Given a bank with EUR as Pivot Currency
+When I convert 12.5 USD to USD 
+ And I convert the result back to USD
+Then I receive 12.5 USD
 ```
